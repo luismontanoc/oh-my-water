@@ -62,9 +62,7 @@ function App() {
   return (
     <div className="App">
       <h1 class="text-start text-white fw-bold">Racionamiento de Agua</h1>
-
-
-      <div className="row mt-4">
+      <div className="row">
         <div className="col-md-6 mt-4">
           <div className="card text-white shadow flow">
             <div class="text-start fw-bold ms-4 mt-4 text-danger">
