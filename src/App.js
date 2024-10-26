@@ -7,6 +7,10 @@ function App() {
   const [displayDate, setDisplayDate] = useState('');
   const [currentDate, setCurrentDate] = useState('');
   const [currentZone, setCurrentZone] = useState('');
+  const [nextMonth, setNextMonth] = useState('');
+  const [nextDayName, setNextDayName] = useState('');
+  const [nextDay, setNextDay] = useState('');
+  const [nextYear, setNextYear] = useState('');
 
   useEffect(() => {
     const today = new Date();
@@ -27,10 +31,21 @@ function App() {
     setSelectedZone(event.target.value);
 
     if (zoneNumber) {
-      const daysUntilNextTurn = (currentZone % 9) + 1;
-      const nextDate = new Date();
-      nextDate.setDate(nextDate.getDate() + (daysUntilNextTurn + zoneNumber - 1));
+      var daysUntilNextTurn = (9 - (currentZone - 1) + (zoneNumber-1)) % 9
+      if(daysUntilNextTurn == 0)
+      {
+        daysUntilNextTurn = 9
+      }
+      const today = new Date()
+      const nextDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());;
+      nextDate.setDate(nextDate.getDate() + daysUntilNextTurn);
       setDisplayDate(nextDate.toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
+      
+      var month = nextDate.toLocaleDateString('es-CO', { month: 'long'})
+      setNextMonth(month.charAt(0).toUpperCase() + month.slice(1))
+      setNextDayName(nextDate.toLocaleDateString('es-CO', { weekday: 'long'}))
+      setNextDay(nextDate.toLocaleDateString('es-CO', { day: 'numeric'}))
+      setNextYear(nextDate.toLocaleDateString('es-CO', { year: 'numeric'}))
     } else {
       setDisplayDate('');
     }
@@ -43,12 +58,12 @@ function App() {
       <div className="row mt-4">
         <div className="col-md-6 mt-4">
           <div className="card">
-          <div class="card-header">
-            <h2>Turno Actual</h2>
-          </div>
-          <div className="card-body">
-            <h4 className="card-text">Hoy {currentDate} le toca al Turno {currentZone}</h4>
-          </div>
+            <div class="card-header">
+              <h2>Turno Actual</h2>
+            </div>
+            <div className="card-body">
+              <h4 className="card-text">Hoy {currentDate} le toca al Turno {currentZone}</h4>
+            </div>
           </div>
         </div>
 
@@ -66,7 +81,18 @@ function App() {
                   </option>
                 ))}
               </select>
-              {displayDate && <h4 className="mt-3">La fecha del próximo racionamiento es {displayDate}</h4>}
+              {displayDate && 
+                <div class="card mt-4 bg-dark mx-auto" style={{width: 9 + 'rem'}}>
+                  <div class="card-header bg-secondary text-white">
+                    <h6>{nextMonth}</h6>
+                  </div>
+                    <div class="card-body text-white">
+                    <h7 class="day-name">{nextDayName}</h7>
+                    <h1 class="date-number">{nextDay}</h1>
+                    <h7 class="year">{nextYear}</h7>
+                  </div>
+                  <div class="card-footer bg-primary"></div>
+              </div>}
             </div>
           </div>
         </div>
