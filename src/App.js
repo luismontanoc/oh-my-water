@@ -1,6 +1,5 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
 import React, { useState, useEffect } from 'react';
 
 function App() {
@@ -18,9 +17,7 @@ function App() {
     setCurrentDate(today.toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
 
     const zone = getDaysBetweenDates(today) % 9 + 1;
-    setCurrentZone(zone + "");
-
-    updateZone(zone, zone);
+    setCurrentZone(zone);
   }, []);
 
   function getDaysBetweenDates(endDate) {
@@ -30,12 +27,8 @@ function App() {
   }
 
   const handleChange = (event) => {
-    updateZone(event.target.value, currentZone)
-  }
-  
-  function updateZone(newZone, currentZone) {
-    const zoneNumber = parseInt(newZone);
-    setSelectedZone(newZone);
+    const zoneNumber = parseInt(event.target.value);
+    setSelectedZone(event.target.value);
 
     if (zoneNumber) {
       var daysUntilNextTurn = (9 - (currentZone - 1) + (zoneNumber-1)) % 9
@@ -50,8 +43,7 @@ function App() {
       
       var month = nextDate.toLocaleDateString('es-CO', { month: 'long'})
       setNextMonth(month.charAt(0).toUpperCase() + month.slice(1))
-      var dayName = nextDate.toLocaleDateString('es-CO', { weekday: 'long'})
-      setNextDayName(dayName.charAt(0).toUpperCase() + dayName.slice(1))
+      setNextDayName(nextDate.toLocaleDateString('es-CO', { weekday: 'long'}))
       setNextDay(nextDate.toLocaleDateString('es-CO', { day: 'numeric'}))
       setNextYear(nextDate.toLocaleDateString('es-CO', { year: 'numeric'}))
     } else {
@@ -61,64 +53,46 @@ function App() {
 
   return (
     <div className="App">
-      <h1 class="text-start text-white fw-bold">Racionamiento de Agua</h1>
-
+      <h1 class="p-3 text-white">Racionamiento de Agua</h1>
 
       <div className="row mt-4">
         <div className="col-md-6 mt-4">
-          <div className="card text-white shadow flow">
-            <div class="text-start fw-bold ms-4 mt-4 text-danger">
-              <h7><i class="bi bi-calendar-check text-danger"></i> Turno de Hoy</h7>
+          <div className="card">
+            <div class="card-header">
+              <h2>Turno Actual</h2>
             </div>
             <div className="card-body">
-              <div class="card-group d-flex m-1">
-                <div class="card text-start fw-bold border-0 transparent-bg" style={{flex: '0 0 55%'}}>
-                    <p class="text-secondary">Fecha Actual</p>
-                    <h4 class="text-white"><strong>{currentDate}</strong></h4>
-                </div>
-                <div class="card border-0 transparent-bg" style={{flex: '0 0 7%'}}></div>
-                <div class="card d-flex align-items-center justify-content-center fw-bold bg-danger rounded" style={{flex: '0 0 38%'}}>
-                    <h4 class="text-white mb-0"><strong>Turno</strong></h4>
-                    <h2 class="text-white mb-0"><strong>{currentZone}</strong></h2>
-                </div>
-              </div>
+              <h4 className="card-text">Hoy {currentDate} le toca al Turno {currentZone}</h4>
             </div>
           </div>
         </div>
 
         <div className="col-md-6 mt-4">
-          <div className="card text-white shadow flow">
-          <div class="text-start fw-bold ms-4 mt-4 text-danger">
-              <h7><i class="bi bi-arrow-right-circle"></i> Próxima Fecha</h7>
-            </div>
+          <div className="card">
+          <div class="card-header">
+            <h2>Próxima Fecha de mi Zona</h2>
+          </div>
             <div className="card-body">
-              <div class="card-group d-flex m-1">
-              <div class="card text-start fw-bold border-0 d-flex justify-content-center transparent-bg" style={{flex: '0 0 55%'}}>
-                    <p class="text-secondary">Elige el Turno</p>
-                    <select className="form-select" value={selectedZone} onChange={handleChange}>
-                      {[...Array(9)].map((_, index) => (
-                        <option key={index + 1} value={index + 1}>
-                          Turno {index + 1}
-                        </option>
-                      ))}
-                    </select>
-                </div>
-              <div class="card border-0 transparent-bg" style={{flex: '0 0 7%'}}></div>
-              <div class="card d-flex align-items-center justify-content-center fw-bold border-0 " style={{flex: '0 0 38%'}}>
+              <select className="form-select" value={selectedZone} onChange={handleChange}>
+                <option value="">Elige una Zona</option>
+                {[...Array(9)].map((_, index) => (
+                  <option key={index + 1} value={index + 1}>
+                    Zona {index + 1}
+                  </option>
+                ))}
+              </select>
               {displayDate && 
-                <div class="card bg-dark" style={{width: '100%'}}>
+                <div class="card mt-4 bg-dark mx-auto" style={{width: 9 + 'rem'}}>
                   <div class="card-header bg-secondary text-white">
-                    <h6 class="m-0"><strong>{nextMonth}</strong></h6>
+                    <h6>{nextMonth}</h6>
                   </div>
                     <div class="card-body text-white">
-                    <h7 class="day-name m-0">{nextDayName}</h7>
-                    <h1 class="date-number m-1"><strong>{nextDay}</strong></h1>
-                    <h7 class="year m-0">{nextYear}</h7>
+                    <h7 class="day-name">{nextDayName}</h7>
+                    <h1 class="date-number">{nextDay}</h1>
+                    <h7 class="year">{nextYear}</h7>
                   </div>
-                  <div class="card-footer bg-danger p-1"></div>
-                </div>}
-              </div>
-              </div>
+                  <div class="card-footer bg-primary"></div>
+              </div>}
             </div>
           </div>
         </div>
