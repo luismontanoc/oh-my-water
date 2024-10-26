@@ -32,7 +32,7 @@ function App() {
 
     if (zoneNumber) {
       var daysUntilNextTurn = (9 - (currentZone - 1) + (zoneNumber-1)) % 9
-      if(daysUntilNextTurn == 0)
+      if(daysUntilNextTurn === 0)
       {
         daysUntilNextTurn = 9
       }
