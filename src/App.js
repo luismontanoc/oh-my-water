@@ -164,7 +164,7 @@ function calculateTurnByDate(date) {
         <div className="col-md-6 mt-4">
           <div className="card text-white shadow flow">
           <div class="text-start fw-bold ms-4 mt-4 text-danger">
-              <h7><i class="bi bi-arrow-right-circle"></i> Turno Según Fecha</h7>
+              <h7><i class="bi bi-search"></i> Turno Según Fecha</h7>
             </div>
             <div className="card-body">
               <div class="card-group d-flex m-1">
