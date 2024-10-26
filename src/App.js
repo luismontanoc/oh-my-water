@@ -72,12 +72,12 @@ function App() {
             </div>
             <div className="card-body">
               <div class="card-group d-flex m-1">
-                <div class="card text-start fw-bold border-0 transparent-bg" style={{flex: '0 0 55%'}}>
+                <div class="card text-start fw-bold border-0 transparent-bg" style={{flex: '0 0 50%'}}>
                     <p class="text-secondary">Fecha Actual</p>
                     <h4 class="text-white"><strong>{currentDate}</strong></h4>
                 </div>
-                <div class="card border-0 transparent-bg" style={{flex: '0 0 7%'}}></div>
-                <div class="card d-flex align-items-center justify-content-center fw-bold bg-danger rounded" style={{flex: '0 0 38%'}}>
+                <div class="card border-0 transparent-bg" style={{flex: '0 0 5%'}}></div>
+                <div class="card d-flex align-items-center justify-content-center fw-bold bg-danger rounded" style={{flex: '0 0 45%'}}>
                     <h4 class="text-white mb-0"><strong>Turno</strong></h4>
                     <h2 class="text-white mb-0"><strong>{currentZone}</strong></h2>
                 </div>
@@ -93,7 +93,7 @@ function App() {
             </div>
             <div className="card-body">
               <div class="card-group d-flex m-1">
-              <div class="card text-start fw-bold border-0 d-flex justify-content-center transparent-bg" style={{flex: '0 0 55%'}}>
+              <div class="card text-start fw-bold border-0 d-flex justify-content-center transparent-bg" style={{flex: '0 0 50%'}}>
                     <p class="text-secondary">Elige el Turno</p>
                     <select className="form-select" value={selectedZone} onChange={handleChange}>
                       {[...Array(9)].map((_, index) => (
@@ -103,8 +103,8 @@ function App() {
                       ))}
                     </select>
                 </div>
-              <div class="card border-0 transparent-bg" style={{flex: '0 0 7%'}}></div>
-              <div class="card d-flex align-items-center justify-content-center fw-bold border-0 " style={{flex: '0 0 38%'}}>
+              <div class="card border-0 transparent-bg" style={{flex: '0 0 5%'}}></div>
+              <div class="card d-flex align-items-center justify-content-center fw-bold border-0 " style={{flex: '0 0 45%'}}>
               {displayDate && 
                 <div class="card bg-dark" style={{width: '100%'}}>
                   <div class="card-header bg-secondary text-white">
