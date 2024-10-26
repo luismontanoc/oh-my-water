@@ -1,6 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { Form } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
 
 function App() {
@@ -8,10 +9,14 @@ function App() {
   const [displayDate, setDisplayDate] = useState('');
   const [currentDate, setCurrentDate] = useState('');
   const [currentZone, setCurrentZone] = useState('');
+  const [nextTurn, setNextTurn] = useState('');
   const [nextMonth, setNextMonth] = useState('');
   const [nextDayName, setNextDayName] = useState('');
   const [nextDay, setNextDay] = useState('');
   const [nextYear, setNextYear] = useState('');
+  const today = new Date();
+  const formattedToday = today.toISOString().split('T')[0];
+  const [selectedDate, setSelectedDate] = useState(formattedToday);
 
   useEffect(() => {
     const today = new Date();
@@ -20,25 +25,60 @@ function App() {
     const zone = getDaysBetweenDates(today) % 9 + 1;
     setCurrentZone(zone + "");
 
-    updateZone(zone, zone);
+    updateZone(1, 1);
+    setNextTurn(zone)
   }, []);
 
   function getDaysBetweenDates(endDate) {
     const start = new Date(new Date(2024, 9, 17));
-    const end = new Date(endDate);
-    return Math.floor((end - start) / (1000 * 60 * 60 * 24));
+    const day = endDate.getDate();
+    const month = endDate.getMonth(); // Los meses van de 0 a 11
+    const year = endDate.getFullYear();
+
+    // Crear un nuevo objeto Date con solo el día, mes y año
+    const cleanedDate = new Date(year, month, day);
+    return Math.floor((cleanedDate - start) / (1000 * 60 * 60 * 24));
   }
 
   const handleChange = (event) => {
     updateZone(event.target.value, currentZone)
   }
+
+  const handleDateChange = (event) => {
+    const newDate = event.target.value;
+    // Comprobar si la nueva fecha es mayor o igual a hoy
+    if (newDate >= formattedToday) {
+        setSelectedDate(newDate);
+        calculateTurnByDate(newDate);
+    } else {
+        alert("No es posible seleccionar fechas en el pasado");
+        setSelectedDate(formattedToday); // Reiniciar a hoy
+        setNextTurn(currentZone)
+    }
+};
+
+function calculateTurnByDate(date) {
+
+  const dateParts = date.split('-'); // Separar el string por "-"
+    const year = parseInt(dateParts[0], 10); // Año
+    const month = parseInt(dateParts[1], 10) - 1; // Mes (0-11)
+    const day = parseInt(dateParts[2], 10); // Día
+
+    // Crear el objeto Date
+    const selectedDateObj = new Date(year, month, day);
+
+
+  const daysFromStart = getDaysBetweenDates(selectedDateObj);
+  const zone = (daysFromStart % 9) + 1;
+  setNextTurn(zone.toString());
+}
   
   function updateZone(newZone, currentZone) {
     const zoneNumber = parseInt(newZone);
     setSelectedZone(newZone);
 
     if (zoneNumber) {
-      var daysUntilNextTurn = (9 - (currentZone - 1) + (zoneNumber-1)) % 9
+      var daysUntilNextTurn = (9 - (currentZone - 1) + (zoneNumber - 1)) % 9
       if(daysUntilNextTurn === 0)
       {
         daysUntilNextTurn = 9
@@ -75,7 +115,7 @@ function App() {
                     <h4 class="text-white"><strong>{currentDate}</strong></h4>
                 </div>
                 <div class="card border-0 transparent-bg" style={{flex: '0 0 5%'}}></div>
-                <div class="card d-flex align-items-center justify-content-center fw-bold bg-danger rounded" style={{flex: '0 0 45%'}}>
+                <div class="card d-flex align-items-center justify-content-center fw-bold bg-danger rounded turn" style={{flex: '0 0 45%'}}>
                     <h4 class="text-white mb-0"><strong>Turno</strong></h4>
                     <h2 class="text-white mb-0"><strong>{currentZone}</strong></h2>
                 </div>
@@ -92,7 +132,7 @@ function App() {
             <div className="card-body">
               <div class="card-group d-flex m-1">
               <div class="card text-start fw-bold border-0 d-flex justify-content-center transparent-bg" style={{flex: '0 0 50%'}}>
-                    <p class="text-secondary">Elige el Turno</p>
+                    <p class="text-secondary">Seleccione un Turno</p>
                     <select className="form-select" value={selectedZone} onChange={handleChange}>
                       {[...Array(9)].map((_, index) => (
                         <option key={index + 1} value={index + 1}>
@@ -116,6 +156,36 @@ function App() {
                   <div class="card-footer bg-danger p-1"></div>
                 </div>}
               </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-md-6 mt-4">
+          <div className="card text-white shadow flow">
+          <div class="text-start fw-bold ms-4 mt-4 text-danger">
+              <h7><i class="bi bi-search"></i> Turno Según Fecha</h7>
+            </div>
+            <div className="card-body">
+              <div class="card-group d-flex m-1">
+              <div class="card text-start fw-bold border-0 d-flex justify-content-center transparent-bg" style={{flex: '0 0 50%'}}>
+                    <p class="text-secondary">Seleccione una Fecha</p>
+                    <Form>
+            <Form.Group controlId="datePicker">
+                <Form.Control
+                    type="date"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    min={formattedToday} // Establecer la fecha mínima en el día actual
+                />
+            </Form.Group>
+        </Form>
+                </div>
+              <div class="card border-0 transparent-bg" style={{flex: '0 0 5%'}}></div>
+              <div class="card d-flex align-items-center justify-content-center fw-bold bg-secondary rounded turn" style={{flex: '0 0 45%'}}>
+                    <h4 class="text-white mb-0"><strong>Turno</strong></h4>
+                    <h2 class="text-white mb-0"><strong>{nextTurn}</strong></h2>
+                </div>
               </div>
             </div>
           </div>

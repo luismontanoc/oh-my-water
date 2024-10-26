@@ -1,17 +1,17 @@
 html, body {
-  height: 100%;
-  width: 100%;
+  /*height: 100%;
+  width: 100%;*/
   background-image: linear-gradient(to right bottom, #00d4ff, #00b1f2, #008ee0, #006ac9, #0044aa, #2f2e8a, #37186b, #35004d, #330033, #2a021f, #1d010f, #000000);
 }
 
 #root {
-  height: 100%;
-  width: 100%;
+  /*height: 100%;
+  width: 100%;*/
 }
 
 .App {
-  height: 100%;
-  width: 100%;
+  /*height: 100%;
+  width: 100%;*/
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -37,4 +37,8 @@ html, body {
 
 .transparent-bg {
   background-color: rgba(0, 0, 0, 0.0) !important;
+}
+
+.turn{
+  min-height: 9rem !important;
 }
