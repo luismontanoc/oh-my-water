@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "//oh-my-water-frontend/static/css/main.5a85c4a7.css",
+    "main.js": "//oh-my-water-frontend/static/js/main.fb443ac3.js",
+    "static/js/453.12ec5bbf.chunk.js": "//oh-my-water-frontend/static/js/453.12ec5bbf.chunk.js",
+    "index.html": "//oh-my-water-frontend/index.html",
+    "main.5a85c4a7.css.map": "//oh-my-water-frontend/static/css/main.5a85c4a7.css.map",
+    "main.fb443ac3.js.map": "//oh-my-water-frontend/static/js/main.fb443ac3.js.map",
+    "453.12ec5bbf.chunk.js.map": "//oh-my-water-frontend/static/js/453.12ec5bbf.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5a85c4a7.css",
+    "static/js/main.fb443ac3.js"
+  ]
+}
