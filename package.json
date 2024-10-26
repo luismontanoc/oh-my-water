@@ -1,7 +1,7 @@
 {
   "name": "oh-my-water-frontend",
   "version": "0.1.0",
-  "homepage": "https://lumontanoc.github.io/oh-my-water-frontend",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
