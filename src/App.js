@@ -25,7 +25,7 @@ function App() {
     const zone = getDaysBetweenDates(today) % 9 + 1;
     setCurrentZone(zone + "");
 
-    updateZone(1, 1);
+    updateZone(zone, zone);
     setNextTurn(zone)
   }, []);
 
