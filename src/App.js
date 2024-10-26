@@ -8,20 +8,16 @@ function App() {
   const [currentDate, setCurrentDate] = useState('');
   const [currentZone, setCurrentZone] = useState('');
 
-  const startDate = new Date(2024, 9, 17); // 17 de octubre de 2024
-  const colombiaLocale = 'es-CO';
-  const dateFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
   useEffect(() => {
     const today = new Date();
-    setCurrentDate(today.toLocaleDateString(colombiaLocale, dateFormatOptions));
+    setCurrentDate(today.toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
 
-    const zone = getDaysBetweenDates(startDate, today) % 9 + 1;
+    const zone = getDaysBetweenDates(today) % 9 + 1;
     setCurrentZone(zone);
   }, []);
 
-  function getDaysBetweenDates(startDate, endDate) {
-    const start = new Date(startDate);
+  function getDaysBetweenDates(endDate) {
+    const start = new Date(new Date(2024, 9, 17));
     const end = new Date(endDate);
     return Math.floor((end - start) / (1000 * 60 * 60 * 24));
   }
@@ -34,7 +30,7 @@ function App() {
       const daysUntilNextTurn = (currentZone % 9) + 1;
       const nextDate = new Date();
       nextDate.setDate(nextDate.getDate() + (daysUntilNextTurn + zoneNumber - 1));
-      setDisplayDate(nextDate.toLocaleDateString(colombiaLocale, dateFormatOptions));
+      setDisplayDate(nextDate.toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
     } else {
       setDisplayDate('');
     }
